@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="css/main.css">
+        <title>Space Invaders</title>
+    </head>
+    <body onload1="init()" onkeydown1="getKey(event)">
+
+        <header class="header">
+            <h1>Space Invaders</h1>
+        </header>
+        
+        <div class="game-board flex column align-center justify-center">
+            <!-- <div class="information-container">
+                <button onclick1="onPouseGame()" class="information-cell pouse-btn">Pouse</button>
+                <div class="information-cell health">Health: <span>100</span>%</div>
+                <div class="information-cell wave">Wave: <span>0</span></div>
+                <div class="information-cell score">Score: <span>0</span></div>
+                <div class="information-cell best-score">Best Score: <span>0</span></div>
+            </div> -->
+            <button onclick1="onPouseGame()" class="information-cell pouse-btn">Pouse</button>
+            <div class="players-info"></div>
+            <div class="game-info flex column">
+                <div class="best-score">Best: <span>0</span></div>
+                <div class="wave">Wave: <span>0</span></div>
+            </div>
+            <div class="game-table"><tbody></tbody></div>
+        </div>
+
+        <footer class="footer">
+            <h6 class="information-cell">aviv issachar</h1>
+        </footer>
+
+        <div class="game-holder-screen"></div>
+        <div class="game-holder flex column align-center space-between">
+            <h2></h2>
+            <button onclick1="onResurmGame()" class="resurm-button"></button>
+            <button onclick1="onRestartGame(1)" class="restart-button"></button>
+            <button onclick1="onRestartGame(2)" class="restart-button-2 multi-player-element">2 players</button>
+        </div>
+
+        <div class="mobile-controllers flex align-center justify-center">
+            <div class="arrow-btns flex align-center justify-center">
+                <button onclick1="onMovePlayer('i', -1)" class="arrow-btn up-btn">U</button>
+                <button onclick1="onMovePlayer('i', 1)" class="arrow-btn down-btn">D</button>
+                <button onclick1="onMovePlayer('j', -1)" class="arrow-btn left-btn">L</button>
+                <button onclick1="onMovePlayer('j', 1)" class="arrow-btn right-btn">R</button>
+            </div>
+            <div class="flex align-center justify-center">
+                <button onclick1="onFire()" class="fire-btn">F</button>
+            </div>
+        </div>
+        
+        <script type="module" src="./js/main.js"></script>
+    </body>
+</html>
