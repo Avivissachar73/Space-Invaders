@@ -270,7 +270,7 @@ function doMovePlayer(posDiffs, playerId) {
     var prevPos = player.pos;
     var newPos = gameService.movePlayer(posDiffs, playerId);
     if (newPos) {
-        hendelHits(player, gameService.checkHits(player));
+        // hendelHits(player, gameService.checkHits(player));
         renderCell(player, prevPos, newPos);
     }
 }

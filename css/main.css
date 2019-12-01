@@ -57,7 +57,7 @@ table {
 
 .game-board .game-table {
     display: inline-block;    
-    text-align: center;
+    /* text-align: center; */
     /* border: 2px solid cadetblue; */
     /* background-image: linear-gradient(rgba(23, 22, 22, 0.5), rgba(196, 36, 36, 0.5), rgba(236, 236, 20, 0.5)); */
     margin: 0 auto;
@@ -235,14 +235,13 @@ table {
     .game-holder {
         width: 90vw;
     }
+    .game-table {
+        width: 100vw;
+    }
     .game-board .game-table .board-cell {
         width: 2vw;
         height: 2vw;
     }
-    /* .information-container, header, footer, .multi-player-element {
-        visibility: hidden;
-        position: absolute;
-    } */
     
     .game-board .game-table .board-cell.player img {
         width: 6vw;
