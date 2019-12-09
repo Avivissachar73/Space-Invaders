@@ -27,7 +27,6 @@ function init(amountOfPlayers = 1) {
 
 function setDomFunctins() {
     document.body.onkeydown = event => getKey(event);
-    document.body.onmousedown = event => console.log(event);
 
     document.querySelector('.information-cell.pouse-btn').onclick = onPousGame;
     document.querySelector('.resurm-button').onclick = onResurmGame;
