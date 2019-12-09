@@ -48,6 +48,8 @@ function setDomFunctins() {
     
     document.querySelector('.fire-btn').onmouseup = () => clearfireInterval();
 
+
+
     document.querySelector('.arrow-btn.up-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
     document.querySelector('.arrow-btn.down-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
     document.querySelector('.arrow-btn.left-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
