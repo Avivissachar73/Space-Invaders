@@ -7,6 +7,9 @@ import controllers from './game-controller.js';
 import gameController from './game-controller.js';
 
 
+var moveInterval;
+var fireInterval;
+
 window.onload = () => {
     init();
     setDomFunctins();
@@ -24,20 +27,44 @@ function init(amountOfPlayers = 1) {
 
 function setDomFunctins() {
     document.body.onkeydown = event => getKey(event);
+    document.body.onmousedown = event => console.log(event);
 
     document.querySelector('.information-cell.pouse-btn').onclick = onPousGame;
     document.querySelector('.resurm-button').onclick = onResurmGame;
     document.querySelector('.restart-button').onclick = () => onRestartGame(1);
     document.querySelector('.restart-button-2').onclick = () => onRestartGame(2);
     
-    document.querySelector('.arrow-btn.up-btn').onclick = () => onMovePlayer('player_1', -1, 0);
-    document.querySelector('.arrow-btn.down-btn').onclick = () => onMovePlayer('player_1', 1, 0);
-    document.querySelector('.arrow-btn.left-btn').onclick = () => onMovePlayer('player_1', 0, -1);
-    document.querySelector('.arrow-btn.right-btn').onclick = () => onMovePlayer('player_1', 0, 1);
+    document.querySelector('.arrow-btn.up-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
+    document.querySelector('.arrow-btn.down-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
+    document.querySelector('.arrow-btn.left-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
+    document.querySelector('.arrow-btn.right-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 0, 1));
     
-    document.querySelector('.fire-btn').onclick = () => onPlayerFire('player_1');
+    document.querySelector('.fire-btn').onmousedown = () => firingInterval(() => onPlayerFire('player_1'));
+
+    document.querySelector('.arrow-btn.up-btn').onmouseup = () => clearMoveInterval();
+    document.querySelector('.arrow-btn.down-btn').onmouseup = () => clearMoveInterval();
+    document.querySelector('.arrow-btn.left-btn').onmouseup = () => clearMoveInterval();
+    document.querySelector('.arrow-btn.right-btn').onmouseup = () => clearMoveInterval();
+    
+    document.querySelector('.fire-btn').onmouseup = () => clearfireInterval();
 }
 
+function movingInterval(func) {
+    func();
+    moveInterval = setInterval(func, 100);
+}
+function clearMoveInterval() {
+    clearInterval(moveInterval);
+    moveInterval = null;
+}
+function firingInterval(func) {
+    func();
+    fireInterval = setInterval(func, 250);
+}
+function clearfireInterval() {
+    clearInterval(fireInterval);
+    fireInterval = null;
+}
 
 //get a key on key down
 function getKey(event) {
