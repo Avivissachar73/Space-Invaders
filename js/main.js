@@ -33,38 +33,43 @@ function setDomFunctins() {
     document.querySelector('.restart-button').onclick = () => onRestartGame(1);
     document.querySelector('.restart-button-2').onclick = () => onRestartGame(2);
     
-    document.querySelector('.arrow-btn.up-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
-    document.querySelector('.arrow-btn.down-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
-    document.querySelector('.arrow-btn.left-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
-    document.querySelector('.arrow-btn.right-btn').onmousedown = () => movingInterval(() => onMovePlayer('player_1', 0, 1));
+    var elUpBtn = document.querySelector('.up-btn');
+    var elDownBtn = document.querySelector('.down-btn');
+    var elLeftBtn = document.querySelector('.left-btn');
+    var elRightBtn = document.querySelector('.right-btn');
+    var elFireBtn = document.querySelector('.fire-btn');
     
-    document.querySelector('.fire-btn').onmousedown = () => firingInterval(() => onPlayerFire('player_1'));
+    elUpBtn.onmousedown = elUpBtn.ontouchstart = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
+    elDownBtn.onmousedown = elDownBtn.ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
+    elLeftBtn.onmousedown = elLeftBtn.ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
+    elRightBtn.onmousedown = elRightBtn.ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, 1));    
+    elFireBtn.onmousedown = elFireBtn.ontouchstart = () => firingInterval(() => onPlayerFire('player_1'));
 
-    document.querySelector('.arrow-btn.up-btn').onmouseup = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.down-btn').onmouseup = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.left-btn').onmouseup = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.right-btn').onmouseup = () => clearMoveInterval();
+    elUpBtn.onmouseup = elUpBtn.ontouchend = () => clearMoveInterval();
+    elDownBtn.onmouseup = elDownBtn.ontouchend = () => clearMoveInterval();
+    elLeftBtn.onmouseup = elLeftBtn.ontouchend = () => clearMoveInterval();
+    elRightBtn.onmouseup = elRightBtn.ontouchend = () => clearMoveInterval();
+    elFireBtn.onmouseup = elFireBtn.ontouchend = () => clearfireInterval();
+
+
+
+    // document.querySelector('.arrow-btn.up-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
+    // document.querySelector('.arrow-btn.down-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
+    // document.querySelector('.arrow-btn.left-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
+    // document.querySelector('.arrow-btn.right-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, 1));
     
-    document.querySelector('.fire-btn').onmouseup = () => clearfireInterval();
+    // document.querySelector('.fire-btn').ontouchstart = () => firingInterval(() => onPlayerFire('player_1'));
 
-
-
-    document.querySelector('.arrow-btn.up-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
-    document.querySelector('.arrow-btn.down-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
-    document.querySelector('.arrow-btn.left-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
-    document.querySelector('.arrow-btn.right-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, 1));
+    // document.querySelector('.arrow-btn.up-btn').ontouchend = () => clearMoveInterval();
+    // document.querySelector('.arrow-btn.down-btn').ontouchend = () => clearMoveInterval();
+    // document.querySelector('.arrow-btn.left-btn').ontouchend = () => clearMoveInterval();
+    // document.querySelector('.arrow-btn.right-btn').ontouchend = () => clearMoveInterval();
     
-    document.querySelector('.fire-btn').ontouchstart = () => firingInterval(() => onPlayerFire('player_1'));
-
-    document.querySelector('.arrow-btn.up-btn').ontouchend = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.down-btn').ontouchend = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.left-btn').ontouchend = () => clearMoveInterval();
-    document.querySelector('.arrow-btn.right-btn').ontouchend = () => clearMoveInterval();
-    
-    document.querySelector('.fire-btn').ontouchend = () => clearfireInterval();
+    // document.querySelector('.fire-btn').ontouchend = () => clearfireInterval();
 }
 
 function movingInterval(func) {
+    if (moveInterval) return;
     func();
     moveInterval = setInterval(func, 100);
 }
@@ -73,6 +78,7 @@ function clearMoveInterval() {
     moveInterval = null;
 }
 function firingInterval(func) {
+    if (fireInterval) return;
     func();
     fireInterval = setInterval(func, 250);
 }
