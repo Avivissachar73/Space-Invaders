@@ -50,22 +50,6 @@ function setDomFunctins() {
     elLeftBtn.onmouseup = elLeftBtn.ontouchend = () => clearMoveInterval();
     elRightBtn.onmouseup = elRightBtn.ontouchend = () => clearMoveInterval();
     elFireBtn.onmouseup = elFireBtn.ontouchend = () => clearfireInterval();
-
-
-
-    // document.querySelector('.arrow-btn.up-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', -1, 0));
-    // document.querySelector('.arrow-btn.down-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 1, 0));
-    // document.querySelector('.arrow-btn.left-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, -1));
-    // document.querySelector('.arrow-btn.right-btn').ontouchstart = () => movingInterval(() => onMovePlayer('player_1', 0, 1));
-    
-    // document.querySelector('.fire-btn').ontouchstart = () => firingInterval(() => onPlayerFire('player_1'));
-
-    // document.querySelector('.arrow-btn.up-btn').ontouchend = () => clearMoveInterval();
-    // document.querySelector('.arrow-btn.down-btn').ontouchend = () => clearMoveInterval();
-    // document.querySelector('.arrow-btn.left-btn').ontouchend = () => clearMoveInterval();
-    // document.querySelector('.arrow-btn.right-btn').ontouchend = () => clearMoveInterval();
-    
-    // document.querySelector('.fire-btn').ontouchend = () => clearfireInterval();
 }
 
 function movingInterval(func) {
