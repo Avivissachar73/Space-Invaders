@@ -35,6 +35,9 @@
                          "L p R"
                          "p D p"; */
 }
+.arrow-btns >* {
+    background: none;
+}
 
 /* .plase-holder {
     grid-area: p;
