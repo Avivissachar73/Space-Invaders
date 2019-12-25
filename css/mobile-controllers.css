@@ -15,10 +15,10 @@
 
 .mobile-controllers button {
     background-color: rgba(0, 0, 0, 0.2);
+    border: unset;
     box-shadow: inset 0px 0px 3px 0px rgba(0,0,0,0.5);
     height: 50px;
     width: 50px;
-    /* border: 1px solid black; */
     border-radius: 50%;
     font-size: 20px;
     user-select: none;
@@ -31,30 +31,20 @@
     display: grid;
     grid-template-rows: repeat(3, 40px);
     grid-template-columns:  repeat(3, 40px);
-    /* grid-template-areas: "p U p"
-                         "L p R"
-                         "p D p"; */
 }
 .arrow-btns >* {
     background: none;
 }
 
-/* .plase-holder {
-    grid-area: p;
-} */
 .up-btn {
-    /* grid-area: U; */
     grid-area: 1/2/1/2;
 }
 .down-btn {
-    /* grid-area: D; */
     grid-area: 3/2/3/2;
 }
 .left-btn {
-    /* grid-area: L; */
     grid-area: 2/1/2/1;
 }
 .right-btn {
-    /* grid-area: R; */
     grid-area: 2/3/2/3;
 }

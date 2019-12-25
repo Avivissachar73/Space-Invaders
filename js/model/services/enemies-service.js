@@ -1,6 +1,6 @@
 'use strict';
 
-import utils from './utils-service.js';
+import utils from '../../services/utils-service.js';
 import moveService from './obj-move-service.js';
 import boardService from './bord-service.js';
 import bordService from './bord-service.js';

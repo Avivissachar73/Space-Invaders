@@ -1,0 +1,20 @@
+.header {
+    text-align: center;
+}
+.header h1 {
+    font-size: 150%;
+}
+
+
+.footer {
+    text-align: center;
+    font-size: 150%;
+}
+
+
+@media (max-width: 600px) {
+    header, footer, .multi-player-element {
+        visibility: hidden;
+        position: absolute;
+    }
+}

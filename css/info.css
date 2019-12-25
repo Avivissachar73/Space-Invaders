@@ -1,0 +1,33 @@
+.info {
+    width: 100%;
+    position: absolute;
+    top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    z-index: 13;
+}
+
+.players-info .health-bar {
+    height: 7px;
+    width: 60px;
+    display: block;
+    position: unset;
+    transform: translate(0, 0);
+}
+.players-info {
+    color: white;
+}
+.player-info >* {
+    margin: 3px;
+}
+
+.pause-btn {
+    background-color: rgb(187, 179, 179);
+}
+
+.game-info {
+    color: white;
+    position: absolute;
+    right: 50%;
+    transform: translate(50%, 0);
+}

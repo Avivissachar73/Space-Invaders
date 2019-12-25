@@ -1,0 +1,27 @@
+.health-bar {
+    background-color: red;
+    border: 1px solid red;
+    border-radius: 3px;
+    width: 30px;
+    height: 4px;
+    position: absolute;
+    bottom: 200%;
+    right: 50%;
+    transform: translate(50%, 0);
+    text-align: left;
+    display: none;
+}
+.inner-health-bar {
+    background-color: blue;
+    border-radius: 3px;
+    height: 100%;
+}
+.board-cell img:hover + .health-bar, .board-cell img:active + .health-bar, .board-cell img:focus + .health-bar, .health-bar.show {
+    display: block;
+}
+
+
+.super-enemy .health-bar {
+    width: 60px;
+    bottom: 275%;
+}

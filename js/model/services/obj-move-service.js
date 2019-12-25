@@ -1,6 +1,6 @@
 'use strict';
 
-import utils from './utils-service.js';
+import utils from '../../services/utils-service.js';
 
 export default {
     regularMove,

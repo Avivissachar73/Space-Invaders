@@ -1,0 +1,48 @@
+/* .game-holder-screen {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(50%, 50%);
+    z-index: 14;
+    display: none;
+} */
+.game-holder {
+    background-color: rgb(65, 6, 2);
+    border: 3px solid black;
+    color: white;
+    position: fixed;
+    padding: 20px;
+    width: 40vw;
+    min-height: 300px;
+    top: 10vh;
+    right: 50%;
+    transform: translate(50%, 0);
+    text-align: center;
+    z-index: 15;
+}
+.game-holder h2 {
+    font-size: 1rem;
+}
+.game-holder button {
+    background-color: cadetblue;
+    text-align: center;
+    margin: 0 auto;
+    display: inline-block;
+    padding: 3px;
+    margin: 5px;
+    width: 100px;
+}
+.game-holder .resurm-button {
+    display: none;
+}
+
+
+
+@media (max-width: 460px) {
+    .game-holder {
+        width: 90vw;
+    }
+}

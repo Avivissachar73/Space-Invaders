@@ -2,33 +2,53 @@
 
 import {renderText} from './services/utils-service.js';
 
-import gameService from './services/game-service.js';
-import controllers from './game-controller.js';
-import gameController from './game-controller.js';
+import eventService from './services/event.service.js';
 
+import controllers from './game-controller.js';
+import gameService from './model/index.js';
 
 var moveInterval;
 var fireInterval;
 
-window.onload = () => {
-    init();
+var gameStatus = {
+    isGameOver: true,
+    isGamePaused: true
+}
+
+window.onload = async () => {
+    connectEvents();
+    
+    ///////////////////////////////////////////////////////////////////////////////// FIX THIS
+    await onRestartGame(); ////////////////////////////////////////////////////////// FIX THIS
+    await onPousGame(); ///////////////////////////////////////////////////////////// FIX THIS
+    renderText('.game-holder h2', 'Space Invaders'); //////////////////////////////// FIX THIS
+    renderText('.game-holder .restart-button', 'Start');///////////////////////////// FIX THIS
+    document.querySelector('.game-holder .resurm-button').style.display = 'none'; /// FIX THIS
+    ///////////////////////////////////////////////////////////////////////////////// FIX THIS
+
+    // init();
     setDomFunctins();
 }
 
-function init(amountOfPlayers = 1) {
-    gameService.resetGlobalVars(amountOfPlayers);
+function connectEvents() {
+    gameService.connectEvents();
+    controllers.connectEvents();
+}
+
+async function init(amountOfPlayers = 1) {
+    // await eventService.emit('setGame', amountOfPlayers);
 
     controllers.renderBoard();
     controllers.renderGameInformation();
 
     renderText('.game-holder h2', 'Space Invaders');
-    renderText('.game-holder .restart-button', 'Start')
+    renderText('.game-holder .restart-button', 'Start');
 }
 
 function setDomFunctins() {
     document.body.onkeydown = event => getKey(event);
 
-    document.querySelector('.information-cell.pouse-btn').onclick = onPousGame;
+    document.querySelector('.pause-btn').onclick = onPousGame;
     document.querySelector('.resurm-button').onclick = onResurmGame;
     document.querySelector('.restart-button').onclick = () => onRestartGame(1);
     document.querySelector('.restart-button-2').onclick = () => onRestartGame(2);
@@ -72,19 +92,19 @@ function clearfireInterval() {
 }
 
 //get a key on key down
-function getKey(event) {
+async function getKey(event) {
     event.preventDefault();
-    if (gameService.getGlobalVar('isGameOver')) return;
+    var isGameOver = gameStatus.isGameOver;
+    var isGamePaused = gameStatus.isGamePaused;
+
+    if (isGameOver) return;
     
     if (event.code === "Escape") {
-        if (gameService.getGlobalVar('isGamePoused')) {
-            onResurmGame();
-        } else {
-            onPousGame();
-        }
+        if (isGamePaused) onResurmGame();
+        else onPousGame();
     }
     
-    if (gameService.getGlobalVar('isGamePoused')) return;
+    if (isGamePaused) return;
     
     //player 1:
     if (event.code === "ArrowLeft") {
@@ -122,33 +142,42 @@ function getKey(event) {
 }
 
 function onPlayerFire(playerId) {
-    gameService.doPlayerFire(playerId);
+    if (gameStatus.isGamePaused) return;
+    eventService.emit('playerFire', playerId);
 }
-
 
 function onMovePlayer(playerId, diffI, diffJ) {
-    gameController.doMovePlayer({i: diffI, j: diffJ}, playerId)
+    if (gameStatus.isGamePaused) return;
+    eventService.emit('movePlayer', {i: diffI, j: diffJ}, playerId);
 }
-
 
 function onResurmGame() {
     document.querySelector('.game-holder').style.display = 'none';
-    gameController.resurmGame();
+    eventService.emit('resurmGame').then(status => {
+        gameStatus = status;
+    });
 }
 
-function onRestartGame(amountOfPlayers) {
-    gameController.restartTheGame(init, amountOfPlayers);
+async function onRestartGame(amountOfPlayers) {
+    // await eventService.emit('resetGame', amountOfPlayers)
+    //     .then(async status => {
+    //         gameStatus = status;
+    //         await init(amountOfPlayers);
+    //     });
+    gameStatus = await eventService.emit('resetGame', amountOfPlayers)
+    await init(amountOfPlayers);
 
-    renderText('.game-holder h2', 'Game Poused');
-    renderText('.game-holder .resurm-button', 'Resurm')
-    renderText('.game-holder .restart-button', 'Replay')
+    renderText('.game-holder h2', 'Game Paused');
+    renderText('.game-holder .resurm-button', 'Resurm');
+    renderText('.game-holder .restart-button', 'Replay');
     document.querySelector('.game-holder .resurm-button').style.display = 'block';
     document.querySelector('.game-holder').style.display = 'none';
 }
 
-
 function onPousGame() {
-    gameController.pousGame();
-    
+    eventService.emit('pauseGame')
+        .then(status => {
+            gameStatus = status;
+        })
     document.querySelector('.game-holder').style.display = 'flex';
 }

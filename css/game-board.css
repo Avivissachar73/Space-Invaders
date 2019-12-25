@@ -1,0 +1,95 @@
+.game-board {
+    text-align: center;
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+
+table {
+    border-spacing: unset;
+}
+
+.game-table {
+    display: inline-block;    
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.game-table .board-cell {
+    text-align: center;
+    position: relative;
+    border: .05px solid rgba(0, 0, 0, 0);
+    width: 7px;
+    height: 7px;
+}
+.game-table .board-cell.border {
+    /* background-color: darkblue; */
+    background-color: black;
+}
+.game-table .board-cell.space {
+    /* background-color: rgba(32, 178, 170, 0.5); */
+    background-color: rgb(68, 65, 65);
+}
+.game-table .board-cell.player {
+    background-color: cadetblue;
+}
+.game-table .board-cell.enemy {
+    background-color: lightsalmon;
+}
+.game-table .board-cell.bullet {
+    /* background-color: rgba(32, 178, 170, 0.5); */
+}
+
+.game-table .board-cell img {
+    position: absolute;
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    opacity: 1;
+    z-index: 10;
+}
+.game-table .board-cell.player img {
+    /* width: 30px; */
+    width: 350%;
+}
+.game-table .board-cell.enemy img {
+    /* width: 30px; */
+    width: 300%;
+}
+.game-table .board-cell.super-enemy img {
+    /* width: 60px; */
+    width: 600%;
+}
+.game-table .board-cell.bullet img {
+    /* width: 10px; */
+    width: 100%;
+}
+.game-table .board-cell.special-object img {
+    /* width: 20px; */
+    width: 250%;
+}
+
+
+@media (max-width: 460px) {
+    .game-table {
+        width: 100vw;
+    }
+    .game-table .board-cell {
+        width: 2vw;
+        height: 2vw;
+    }
+    
+    .game-table .board-cell.player img {
+        width: 6vw;
+    }
+    .game-table .board-cell.enemy img {
+        width: 6vw;
+    }
+    .game-table .board-cell.super-enemy img {
+        width: 12vw;
+    }
+    .game-table .board-cell.bullet img {
+        width: 2vw;
+    }
+}

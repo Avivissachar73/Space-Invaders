@@ -1,7 +1,7 @@
 'use strict';
 
 
-import utils from './utils-service.js';
+import utils from '../../services/utils-service.js';
 
 export default {
     setPlayers
@@ -49,7 +49,7 @@ function _createPlayer(pos, id = 'player_1') {
         bulletSpeed: -5,
         bulletLevel: 1,
         isShowHealthBar: false,
-        widthRadius:1,
+        widthRadius: 2,
         bullets: []
     };
     return player;

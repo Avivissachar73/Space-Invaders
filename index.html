@@ -14,17 +14,19 @@
         </header>
         
         <div class="game-board flex column align-center justify-center">
-            <button onclick1="onPouseGame()" class="information-cell pouse-btn">Pause</button>
-            <div class="players-info"></div>
-            <div class="game-info flex column">
-                <div class="best-score">Best: <span>0</span></div>
-                <div class="wave">Wave: <span>0</span></div>
+            <div class="info flex flex-start space-between wrap">
+                <div class="players-info"></div>
+                <div class="game-info flex column">
+                    <div class="best-score">Best: <span>0</span></div>
+                    <div class="wave">Wave: <span>0</span></div>
+                </div>
+                <button onclick1="onPauseGame()" class="pause-btn">Pause</button>
             </div>
             <div class="game-table"><tbody></tbody></div>
         </div>
 
         <footer class="footer">
-            <h6 class="information-cell">aviv issachar</h1>
+            <h6 class="">aviv issachar</h1>
         </footer>
 
         <!-- <div class="game-holder-screen"></div> -->
@@ -47,6 +49,7 @@
             </div>
         </div>
         
+        <!-- <script type="module" src="./js/modules/index.js"></script> -->
         <script type="module" src="./js/main.js"></script>
     </body>
 </html>

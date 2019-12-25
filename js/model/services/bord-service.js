@@ -12,8 +12,10 @@ export default {
     checkIfGrownedHit,
     BoardWidth,
     BoardHeight,
-    BorderMAtChar,
-    SpaceMAtChar
+    boardBorder,
+    boardSpace
+    // BorderMAtChar,
+    // SpaceMAtChar
 }
 
 var gBordMat;
@@ -36,11 +38,15 @@ function createBoardMat(player) {
     for (var i = 0; i < BoardHeight; i++) {
         boardMAt[i] = [];
         for (var j = 0; j < BoardWidth; j++) {
-            // if (i === player.pos.i && j === player.pos.j) {boardMAt[i][j] = player; continue;}
-            if (i === 0 || i === BoardHeight-1 || j === 0 || j === BoardWidth-1) {boardMAt[i][j] = BorderMAtChar; continue;}
-            else boardMAt[i][j] = SpaceMAtChar;
+            // if (i === 0 || i === BoardHeight-1 || j === 0 || j === BoardWidth-1) {boardMAt[i][j] = BorderMAtChar; continue;}
+            // else boardMAt[i][j] = SpaceMAtChar;
+            if (i === 0 || i === BoardHeight-1 || j === 0 || j === BoardWidth-1) {boardMAt[i][j] = boardBorder()}
+            else boardMAt[i][j] = boardSpace();
         }
     }
     gBordMat = boardMAt;
     return boardMAt;
 }
+
+function boardBorder() {return {type: 'border'}}
+function boardSpace() {return {type: 'space'}}
