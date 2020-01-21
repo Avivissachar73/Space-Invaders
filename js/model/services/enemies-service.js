@@ -52,7 +52,7 @@ function _setEnemy(createFunc, pos) {
 
 // create super enemy
 function _createSuperEnemy(pos) {
-    var enemy = _createEnemy(pos, 'super-enemy', 500, 2, 30, 40, `images/enemy_ship.png`, moveService.horisenalMove, true);
+    var enemy = _createEnemy(pos, 'super-enemy', 500, 2, 30, 40, `images/super_enemy_ship.png`, moveService.horisenalMove, true);
     enemy.bulletSpeed = 3;
     enemy.bulletPower = 30;
     enemy.shootingFriquency = 7;

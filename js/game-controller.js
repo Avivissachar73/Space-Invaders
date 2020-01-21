@@ -13,6 +13,12 @@ function connectEvents() {
     eventService.on('objectMove', renderCell);
     eventService.on('removeObject', doRemoveObject);
     eventService.on('gameFinish', doGameFinish);
+    eventService.on('settingWave', renderGameInformation);
+    eventService.on('waveStarted', currWave => console.log('wave:', currWave));
+    eventService.on('playerFired', () => console.log('fire!'));
+    eventService.on('enemyDied', enemy => console.log('enemy died:', enemy));
+    eventService.on('playerDied', doRemoveObject);
+
     console.log('controller was connected');
 }
 // connectEvents();
@@ -45,6 +51,7 @@ function grtHealthbarHtmlStr(obj, isShowHealthBar = false) {
             style="width:${currHelthPercents}%"></div></div>`;
 }
 function getHelthPercents(obj) {
+    if (obj.health <= 0) return 0;
     return (obj.health / obj.maxHealth) * 100;
 }
   

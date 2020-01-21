@@ -17,27 +17,17 @@ var gameStatus = {
 
 window.onload = async () => {
     connectEvents();
-    
-    ///////////////////////////////////////////////////////////////////////////////// FIX THIS
-    await onRestartGame(); ////////////////////////////////////////////////////////// FIX THIS
-    await onPousGame(); ///////////////////////////////////////////////////////////// FIX THIS
-    renderText('.game-holder h2', 'Space Invaders'); //////////////////////////////// FIX THIS
-    renderText('.game-holder .restart-button', 'Start');///////////////////////////// FIX THIS
-    document.querySelector('.game-holder .resurm-button').style.display = 'none'; /// FIX THIS
-    ///////////////////////////////////////////////////////////////////////////////// FIX THIS
-
-    // init();
+    init();
     setDomFunctins();
 }
 
 function connectEvents() {
     gameService.connectEvents();
     controllers.connectEvents();
+    eventService.on('gameReseted', resetGame);
 }
 
-async function init(amountOfPlayers = 1) {
-    // await eventService.emit('setGame', amountOfPlayers);
-
+async function init() {
     controllers.renderBoard();
     controllers.renderGameInformation();
 
@@ -159,20 +149,19 @@ function onResurmGame() {
 }
 
 async function onRestartGame(amountOfPlayers) {
-    // await eventService.emit('resetGame', amountOfPlayers)
-    //     .then(async status => {
-    //         gameStatus = status;
-    //         await init(amountOfPlayers);
-    //     });
-    gameStatus = await eventService.emit('resetGame', amountOfPlayers)
-    await init(amountOfPlayers);
+    gameStatus = await eventService.emit('resetGame', amountOfPlayers);
+}
 
+async function resetGame() {
+    await init();
+    
     renderText('.game-holder h2', 'Game Paused');
     renderText('.game-holder .resurm-button', 'Resurm');
     renderText('.game-holder .restart-button', 'Replay');
     document.querySelector('.game-holder .resurm-button').style.display = 'block';
     document.querySelector('.game-holder').style.display = 'none';
 }
+
 
 function onPousGame() {
     eventService.emit('pauseGame')

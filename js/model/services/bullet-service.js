@@ -71,7 +71,7 @@ function setPlayerFire(player, gameBullets) {
 
 //create bullet
 function createRegularBullet(pos, obj) {
-    var imgSrcStr = (obj.type === 'player')? `images/bullet.png` : `images/bullet.png`;
+    var imgSrcStr = (obj.type === 'player')? `images/bullet.png` : `images/enemy_bullet.png`;
     var bulletSubType = (obj.type === 'player')? 'friendly-bullet' : 'enemy-bullet';
 
     return {

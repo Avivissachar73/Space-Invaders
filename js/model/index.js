@@ -10,14 +10,11 @@ import bulletsService from './services/bullet-service.js';
 import specialObjectsService from './services/special-object-service.js';
 import bulletService from './services/bullet-service.js';
 
-
-
 export default {connectEvents};
 
-
-
-
 const BEST_SCORE_STORAGE_KEY = 'Space_Invaders_Best_Score';
+
+const GAME_SPEED = 300;
 
 var gGame = {
     board: null,
@@ -34,6 +31,8 @@ var gGame = {
     score: 0,
     BestScore: 0,
     gameInterval: null,
+
+    isSettingWave: false
 };
 
 window.gGame = gGame;
@@ -43,7 +42,6 @@ function resetGlobalVars(amountOfPlayers = 1) {
     gGame.players = playerService.setPlayers(gGame.board, amountOfPlayers);
 
     gGame.enemies = [];
-    gGame.amountOfEnemies = 0;
     
     gGame.bullets = [];
     gGame.bulletLevel = 1;
@@ -52,14 +50,17 @@ function resetGlobalVars(amountOfPlayers = 1) {
     gGame.specialObjects = [];
     
     gGame.currWave = 0;
+    gGame.amountOfEnemies = 0;
+
     gGame.score = 0;
     gGame.isGamePaused = false;
     gGame.isGameOver = false;
     gGame.BestScore = loadScoreFromStorage();
+
+    gGame.isSettingWave = false;
 }
 
 var gameStatus = {
-    // gameInterval: null,
     isGamePaused: true,
     isGameOver: true,
 }
@@ -72,7 +73,7 @@ function connectEvents() {
     eventService.on('movePlayer', movePlayer);
     eventService.on('playerFire', doPlayerFire);
 
-    eventService.on('getBoard', () => Promise.resolve(gGame.board));
+    eventService.on('getBoard', () => {if(!gGame.board)resetGlobalVars(); return Promise.resolve(gGame.board)});
     eventService.on('getPlayers', () => Promise.resolve(gGame.players));
     eventService.on('getBestScore', () => Promise.resolve(gGame.BestScore));
     eventService.on('getCurrWave', () => Promise.resolve(gGame.currWave));
@@ -80,7 +81,7 @@ function connectEvents() {
     // eventService.on('getIsGamePaused', () => Promise.resolve(gameStatus.isGamePaused));
     // eventService.on('getIsGameOver', () => Promise.resolve(gameStatus.isGameOver));;
 
-    // eventService.on('setGame', resetGlobalVars);
+    eventService.on('setGame', resetGlobalVars);
 
     console.log('service was connected');
 }
@@ -92,7 +93,7 @@ function gameInterval() {
         gameFinish();
         return;
     }
-    if (checkIfWaveDone()) {
+    if (!gGame.isSettingWave && checkIfWaveDone()) {
         setNextWave();
     }
     checkMultipleHits();
@@ -115,13 +116,13 @@ function gameFinish() {
 function resetGame(amountOfPlayers = 1) {
     pousGame();
     resetGlobalVars(amountOfPlayers);
-    // init(amountOfPlayers);
     resurmGame();
+    eventService.emit('gameReseted');
     return Promise.resolve(gameStatus);
 }    
 
 function resurmGame() {
-    gGame.gameInterval = setInterval(gameInterval, 300);
+    gGame.gameInterval = setInterval(gameInterval, GAME_SPEED);
     gameStatus.isGamePaused = false;
     gameStatus.isGameOver = false;
     return Promise.resolve(gameStatus);
@@ -186,12 +187,17 @@ function checkMultipleHits() {
 
 
 function doPlayerHit(objs, objId, player) {
+    if (player.isDead) return;
     var hitObj = getObj(objs, objId);
     if (hitObj.type === 'special-object') {
         pickSpecialObj(hitObj.id, player);
     } else {
         updateHealth(gGame.players, player.id, -hitObj.power);
         bulletService.updateBulletLevel(-1, player);
+        if (player.health <= 0) {
+            player.isDead = true;
+            eventService.emit('playerDied', player);
+        }
     }
     if (hitObj.subType !== 'super-enemy') removeObject(objs, objId);
 }
@@ -210,8 +216,10 @@ function doEnemyHit(enemyId, bulletId) {
         isDead = true;
         updateScore(bullet.owner, enemy.points);
         removeObject(enemies, enemyId);
+        eventService.emit('enemyDied', enemy);
     }
     removeObject(bullets, bullet.id);
+
 
     return isDead;
 }
@@ -223,11 +231,11 @@ function showHealthBar(obj) {
     }, 3000);
 }
 
-
 function doPlayerFire(playerId) {
     var player = getObj(gGame.players, playerId);
     if (!player || player.health <= 0) return;
     gGame.bullets = [...gGame.bullets, ...bulletService.setPlayerFire(player, gGame.bullets)];
+    eventService.emit('playerFired');
 }
 
 function movePlayer(posDiffs, playerId) {
@@ -337,27 +345,33 @@ function pickSpecialObj(id, player) {
 }
 
 
-function checkIfWaveDone() {
-    return (gGame.enemies.length === 0);
-}
-
 function getObj(objs, id) {
     return objs.find(obj => obj.id === id);
 }
 
-function getPlayer(id) {
-    return getObj(gGame.players, id);
+function checkIfWaveDone() {
+    return (gGame.enemies.length === 0);
 }
-
-
 
 /**SET FUNCTIONS**/
 
 function setNextWave() {
-    gGame.amountOfEnemies++;
+    gGame.isSettingWave = true;
     gGame.currWave++;
-    // gGame.enemies = [...gGame.enemies, ...enemiesService.createEnemies(gGame.amountOfEnemies, gGame.currWave)];
-    gGame.enemies = enemiesService.createEnemies(gGame.amountOfEnemies, gGame.currWave);
+    gGame.amountOfEnemies++;
+
+    var startIn = 3000;
+    eventService.emit('settingWave', {nextWave: gGame.currWave, startIn: startIn});
+    
+    clearInterval(gGame.gameInterval);
+    gGame.gameInterval = null;
+    gGame.gameInterval = setInterval(gameInterval, GAME_SPEED);
+
+    setTimeout(() => {
+        eventService.emit('waveStarted', gGame.currWave);
+        gGame.enemies = [...gGame.enemies, ...enemiesService.createEnemies(gGame.amountOfEnemies, gGame.currWave)];
+        gGame.isSettingWave = false;
+    }, startIn);
 }
 
 function updateHealth(objs, id, diff) {

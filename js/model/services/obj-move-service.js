@@ -19,9 +19,11 @@ function horisenalMove(obj, players) {
         return regularMove(obj);
     } else {
 
-        var closestPlayer = players[0];
+        // var closestPlayer = players[0];
+        var closestPlayer;
         players.forEach(player => {
-            if (utils.absValue(player.pos.j) < utils.absValue(closestPlayer.pos.j)) {
+            if ((!closestPlayer && !player.isDead) || (!player.isDead && (utils.absValue(player.pos.j - obj.pos.j) < utils.absValue(closestPlayer.pos.j - obj.pos.j)))) {
+            // if ((!closestPlayer && !player.isDead) || (!player.isDead && (Math.abs(player.pos.j - obj.pos.j) < Math.abs(closestPlayer.pos.j - obj.pos.j)))) {
                 closestPlayer = player;
             }
         });
